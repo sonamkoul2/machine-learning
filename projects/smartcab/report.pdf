@@ -1,0 +1,27 @@
+Tasks
+Implement a Basic Driving Agent:
+
+QUESTION: Observe what you see with the agent's behavior as it takes random actions. Does the smartcab eventually make it to the destination? Are there any other interesting observations to note?
+
+Answer: The Driving Agent's behavior as it takes random action within the simulation is that it does not care whether the light is red or green, whether or not there is an oncoming vehicle. It does not receive any reward or penalty. It randomly go "right, left, forward or none" without rigards to the target location. It does not arrive at the target location.
+
+QUESTION: What states have you identified that are appropriate for modeling the smartcab and environment? Why do you believe each of these states to be appropriate for this problem?
+The sates of this environment are: light, Oncoming, next waypoint, left, and action. I believe each of these states to be appropriate for this problem because they are crucial when it comes to driving according to U.S right-of-way rules and policies. 
+
+
+OPTIONAL: How many states in total exist for the smartcab in this environment? Does this number seem reasonable given that the goal of Q-Learning is to learn and make informed decisions about each state? Why or why not?
+
+Answer:The smartcab in this environment has five(5) states. Yes this number is resonable because if you follow the U.S traffic light it does not matter much whether there is a vehicle at your right unless it is a stop and go intersection or you are in the middle of the intersection trying to turn left while light has turned red after yielding for oncoming vehile. 
+
+Implement a Q-Learning Driving Agent:
+QUESTION: What changes do you notice in the agent's behavior when compared to the basic driving agent when random actions were always taken? Why is this behavior occurring?
+Answer: The agent follow the U.S right-of-way and trffic rules for 90 percent out of 100 trials. It also reaches its destination within the deadline. It receives more positive rewards and very few negative rewards. This is because I implemented the agent's Q-Learning to choose between staying in same intersection or choosing the next way_point depending on the traffic light and the next destination not by random. Staying, in another word doing nothing if the light for example is red may delay the time to reach the destination but can prevent accident. Choosing the right nex_waypoint is necessary for reaching the destination on time. 
+
+Improve the Q-Learning Driving Agent
+QUESTION: Report the different values for the parameters tuned in your basic implementation of Q-Learning. For which set of parameters does the agent perform best? How well does the final driving agent perform?
+After trying many different learning rate and discount factor values, I calculate the average reward by the total moves and I had the alpha values = [0.1, 0.3, 0.5, 0.7, 0.9] and the same values for the learning rate [0.9, 0.7, 0.5, 0.3, 0.1] which gives 5*5 = 25 combinations. For alpha=0.9 and gamma=0.5 yield the highest reward. The agent did not receive any punishment or negative reward from trial 87 to trial 99. Therefore it lernt from its mistakes and perfomed well in the final.    
+QUESTION: Does your agent get close to finding an optimal policy, i.e. reach the destination in the minimum possible time, and not incur any penalties? How would you describe an optimal policy for this problem?
+Yes! My agent does get close to finding an optimal policy because it reaches its destination after 100 trials within the required time and it incurs very few penalties.
+
+
+
