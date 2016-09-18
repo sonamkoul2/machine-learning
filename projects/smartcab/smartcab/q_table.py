@@ -28,7 +28,7 @@ class QLTable():
         self._table[self.__state_action(light=light, left=left, oncoming=oncoming, next_waypoint=next_waypoint, action=action)] = next_value
 
     def best_action(self, light=None, next_waypoint=None, left=None, oncoming=None):
-        go_to_next_waypoint = self.get_value(light=light, next_waypoint=next_waypoint, left=left, oncoming=oncoming, action=next_waypoint)
+        go_to_next_waypoint = self.get_value(light = light, next_waypoint=next_waypoint, left=left, oncoming=oncoming, action=next_waypoint)
 
         do_nothing = self.get_value(light=light, next_waypoint=next_waypoint, left=left, oncoming=oncoming, action=None)
 
