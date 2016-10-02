@@ -39,7 +39,7 @@ class LearningAgent(Agent):
         self.state = 'light: {}, left: {}. oncoming: {}, next_waypoint: {}'.format(inputs['light'], inputs['left'], inputs['oncoming'], self.next_waypoint)
         
         # TODO: Select action according to your policy
-        action = self.q_table.chooseAction(self.state)
+        action = self.q_table_updater.bestAction(light=inputs['light'], next_waypoint=self.next_waypoint, left=inputs['left'], oncoming=inputs['oncoming'])
 
         # Execute action and get reward
         reward = self.env.act(self, action)
