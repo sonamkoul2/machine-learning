@@ -4,6 +4,7 @@ from planner import RoutePlanner
 from simulator import Simulator
 from collections import defaultdict
 
+
 class LearningAgent(Agent):
     """An agent that learns to drive in the smartcab world."""
 
@@ -20,17 +21,10 @@ class LearningAgent(Agent):
         for state in xrange(1, 96):
             for action in xrange(1, 4):
                  QTable[(state, action)] = 0
-        
-            
-       
+
     def reset(self, destination=None):
         self.planner.route_to(destination)
         # TODO: Prepare for a new trip; reset any variables here, if required
-          
-   
-    def get_value(self, state, action):
-        return QTable[(state, action)]
-        
     def max_Q_value(self, state):
         maxQ = 0
         for action in self.env.valid_actions:
@@ -65,7 +59,7 @@ class LearningAgent(Agent):
 
         # TODO: Update state
         self.state = 'light: {}, left: {}. oncoming: {}, next_waypoint: {}'.format(inputs['light'], inputs['left'], inputs['oncoming'], self.next_waypoint)
-
+        
         # TODO: Select action according to your policy
         action = self.chooseAction(self.state)
 
@@ -77,7 +71,6 @@ class LearningAgent(Agent):
 
         print "LearningAgent.update(): deadline = {}, inputs = {}, action = {}, reward = {}".format(deadline, inputs, action, reward)  # [debug]
 
-
 def run():
     """Run the agent for a finite number of trials."""
 
@@ -88,7 +81,7 @@ def run():
     # NOTE: You can set enforce_deadline=False while debugging to allow longer trials
 
     # Now simulate it
-    sim = Simulator(e, update_delay=0.000001, display=True)  # create simulator (uses pygame when display=True, if available)
+    sim = Simulator(e, update_delay=0.00001, display=True)  # create simulator (uses pygame when display=True, if available)
     # NOTE: To speed up simulation, reduce update_delay and/or set display=False
 
     sim.run(n_trials=100)  # run for a specified number of trials
