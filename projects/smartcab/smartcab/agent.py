@@ -25,10 +25,10 @@ class LearningAgent(Agent):
     def reset(self, destination=None):
         self.planner.route_to(destination)
         # TODO: Prepare for a new trip; reset any variables here, if required
-    def max_Q_value(self, state):
+    def max_Q_value(self, next_state):
         maxQ = 0
         for action in self.env.valid_actions:
-            this_value = QTable[(state, action)]
+            this_value = QTable[(next_state, action)]
             if this_value > maxQ:
                 maxQ = this_value
         return maxQ
@@ -36,10 +36,14 @@ class LearningAgent(Agent):
     def set_value(self, state, action, reward):
         alpha = 0.9; gamma = 0.5
         old_value = QTable[(state, action)]
-        new_value = old_value * (1 - alpha) + alpha*reward + alpha*gamma * self.max_Q_value(state)
+        self.env.sense(self)
+        self.get_next_waypoint
+        new_value = old_value * (1 - alpha) + alpha*reward + alpha*gamma * self.max_Q_value(self.state)
         QTable[(state, action)] = new_value
         
     def chooseAction(self, state):
+        #for t in range(1, 101):
+           # epsilon = 0.1/t
         q = [QTable[(state, action)] for action in self.env.valid_actions]
         maxQ = max(q)
         count = q.count(maxQ)
@@ -48,7 +52,13 @@ class LearningAgent(Agent):
             i = random.choice(best)
         else:
             i = q.index(maxQ)
+            
+        # valid_actions = [(1-epsilon)*self.env.valid_actions[i] , epsilon*(self.env.valid_actions[:i] + self.env.valid_actions[i+1:])]
+            
+        # action = (1 - epsilon)random.choice(self.valid_actions[i]) + epsilon*(random.choice(self.valid_actions[:i] + random.choice(self.valid_actions[i+1:])) 
+        
         action = self.env.valid_actions[i]
+        
         return action
         
     def update(self, t):
