@@ -42,24 +42,29 @@ class LearningAgent(Agent):
         QTable[(state, action)] = new_value
         
     def chooseAction(self, state):
-        #for t in range(1, 101):
-           # epsilon = 0.1/t
+        epsilon = 0.1
         q = [QTable[(state, action)] for action in self.env.valid_actions]
         maxQ = max(q)
+        
         count = q.count(maxQ)
+       
         if count > 1:
             best = [i for i in range(4) if q[i] == maxQ]
             i = random.choice(best)
         else:
             i = q.index(maxQ)
-            
-        # valid_actions = [(1-epsilon)*self.env.valid_actions[i] , epsilon*(self.env.valid_actions[:i] + self.env.valid_actions[i+1:])]
-            
-        # action = (1 - epsilon)random.choice(self.valid_actions[i]) + epsilon*(random.choice(self.valid_actions[:i] + random.choice(self.valid_actions[i+1:])) 
         
-        action = self.env.valid_actions[i]
         
-        return action
+        best_action = self.env.valid_actions[i]
+        
+        action = random.choice(self.env.valid_actions)
+         
+        # other_action = random.choice(self.env.valid_actions[:i] + self.env.valid_actions[i+1:])
+        
+        if random.random() <= epsilon:
+            return action
+        else:
+            return best_action
         
     def update(self, t):
         # Gather inputs
@@ -79,8 +84,8 @@ class LearningAgent(Agent):
         # TODO: Learn policy based on state, action, reward
         self.set_value(self.state, action, reward)
 
-        print "LearningAgent.update(): deadline = {}, inputs = {}, action = {}, reward = {}".format(deadline, inputs, action, reward)  # [debug]
-
+        print "LearningAgent.update(): deadline = {}, inputs = {}, action = {}, reward = {}".format(deadline, inputs, action, reward)# [debug]
+        
 def run():
     """Run the agent for a finite number of trials."""
 
