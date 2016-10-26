@@ -3,6 +3,9 @@ from environment import Agent, Environment
 from planner import RoutePlanner
 from simulator import Simulator
 from collections import defaultdict
+import matplotlib.pyplot as plt
+
+
 
 
 class LearningAgent(Agent):
@@ -18,8 +21,8 @@ class LearningAgent(Agent):
         self._initialize_QTable()
         
     def _initialize_QTable(self):
-        for state in xrange(1, 96):
-            for action in xrange(1, 4):
+        for state in xrange(96):
+            for action in xrange(4):
                  QTable[(state, action)] = 0
 
     def reset(self, destination=None):
@@ -36,8 +39,9 @@ class LearningAgent(Agent):
     def set_value(self, state, action, reward):
         alpha = 0.9; gamma = 0.5
         old_value = QTable[(state, action)]
-        self.env.sense(self)
-        self.get_next_waypoint
+        self.next_waypoint = self.planner.next_waypoint()  # from route planner, also displayed by simulator
+        inputs = self.env.sense(self)
+        self.state = 'light: {}, left: {}. oncoming: {}, next_waypoint: {}'.format(inputs['light'], inputs['left'], inputs['oncoming'], self.next_waypoint)
         new_value = old_value * (1 - alpha) + alpha*reward + alpha*gamma * self.max_Q_value(self.state)
         QTable[(state, action)] = new_value
         
@@ -57,15 +61,15 @@ class LearningAgent(Agent):
         
         best_action = self.env.valid_actions[i]
         
-        action = random.choice(self.env.valid_actions)
          
-        # other_action = random.choice(self.env.valid_actions[:i] + self.env.valid_actions[i+1:])
+        other_action = random.choice(self.env.valid_actions[:i] + self.env.valid_actions[i+1:])
         
         if random.random() <= epsilon:
-            return action
+            return other_action
         else:
             return best_action
-        
+            
+    
     def update(self, t):
         # Gather inputs
         self.next_waypoint = self.planner.next_waypoint()  # from route planner, also displayed by simulator
@@ -83,8 +87,34 @@ class LearningAgent(Agent):
 
         # TODO: Learn policy based on state, action, reward
         self.set_value(self.state, action, reward)
-
+        
+        """total_reward = []
+        total_reward = []
+        net_reward_list = []
+        
+        if reward == 12 and deadline >= 0:
+            total_reward.append(reward)
+            count = total_reward.count(reward)
+            net_reward = sum(total_reward)/count
+            net_reward_list.append(net_reward)
+        plt.plot(range(len(net_reward_list)), net_reward_list)
+        plt.show()"""
+            
+        
         print "LearningAgent.update(): deadline = {}, inputs = {}, action = {}, reward = {}".format(deadline, inputs, action, reward)# [debug]
+        
+        
+        
+        
+
+    
+    
+        
+        
+        
+
+        
+        
         
 def run():
     """Run the agent for a finite number of trials."""
